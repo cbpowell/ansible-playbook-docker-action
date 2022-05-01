@@ -62,7 +62,7 @@ else
     echo "\$INPUT_ROLESPATH not set. Will install roles in standard path."
   else
     echo "\$INPUT_ROLESPATH is set. Will install roles to ${INPUT_ROLESPATH}."
-    export ROLES_PATH=$INPUT_ROLESPATH
+    export ROLES_PATH="--roles-path ${INPUT_ROLESPATH}"
   fi
   echo "\$INPUT_REQUIREMENTSFILE is set. Will use ${INPUT_REQUIREMENTSFILE} to install external roles."
 
@@ -82,7 +82,7 @@ else
   fi
 
   ansible-galaxy install --force \
-    --roles-path ${ROLES_PATH} \
+    ${ROLES_PATH} \
     -r ${REQUIREMENTS} \
     ${VERBOSITY}
 fi
