@@ -1,6 +1,6 @@
-FROM pinkrobin/docker-ansible-alpine:2.9.11
+FROM theta142/alpine-ansible:4.8.0
 
-MAINTAINER Patrick Pötz <devops@wastebox.biz>
+MAINTAINER Charles Powell <cbpowell@gmail.com>
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
