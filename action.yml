@@ -24,8 +24,8 @@ inputs:
   keyFile:
     description: 'Keyfile to use for host connections.'
     required: false
-  keyFileVaultPass:
-    description: 'Vault Password to decrypt keyFile.'
+  vaultPass:
+    description: 'Vault Password to decrypt keyFile and inventoryFile (if encrypted).'
     required: false
   extraVars:
     description: 'String containing all extraVars which you want to be injected into the run.'
@@ -46,7 +46,7 @@ runs:
     - ${{ inputs.galaxyGithubUser }}
     - ${{ inputs.galaxyGithubToken }}
     - ${{ inputs.keyFile }}
-    - ${{ inputs.keyFileVaultPass }}
+    - ${{ inputs.vaultPass }}
     - ${{ inputs.extraVars }}
     - ${{ inputs.extraFile }}
     - ${{ inputs.verbosity }}

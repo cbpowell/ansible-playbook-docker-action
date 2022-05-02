@@ -2,16 +2,16 @@
 
 set -e
 
-# Evaluate keyfilevaultpass
-export KEYFILEVAULTPASS=
-if [ ! -z "$INPUT_KEYFILEVAULTPASS" ]
+# Evaluate vaultpass
+export VAULTPASS=
+if [ ! -z "$INPUT_VAULTPASS" ]
 then
-  echo "Using \$INPUT_KEYFILE_VAULT_PASS to decrypt and access vault."
+  echo "Using \$INPUT_VAULTPASS to decrypt and access vault."
   mkdir -p ~/.ssh
-  echo "${INPUT_KEYFILEVAULTPASS}" > ~/.ssh/vault_key
-  export KEYFILEVAULTPASS="--vault-password-file ~/.ssh/vault_key"
+  echo "${INPUT_VAULTPASS}" > ~/.ssh/vault_key
+  export VAULTPASS="--vault-password-file ~/.ssh/vault_key"
 else
-  echo "\$INPUT_KEYFILEVAULTPASS not set. Won't be able to decrypt any encrypted file."
+  echo "\$INPUT_VAULTPASS not set. Won't be able to decrypt any encrypted file."
 fi
 
 # Evaluate keyfile
@@ -19,10 +19,10 @@ export KEYFILE=
 if [ ! -z "$INPUT_KEYFILE" ]
 then
   echo "\$INPUT_KEYFILE is set. Will use ssh keyfile for host connections."
-  if [ ! -z "$KEYFILEVAULTPASS" ]
+  if [ ! -z "$VAULTPASS" ]
   then
-    echo "Using \$INPUT_KEYFILE_VAULT_PASS to decrypt keyfile."
-    ansible-vault decrypt ${INPUT_KEYFILE} ${KEYFILEVAULTPASS}
+    echo "Using \$INPUT_VAULTPASS to decrypt keyfile."
+    ansible-vault decrypt ${INPUT_KEYFILE} ${VAULTPASS}
   fi
   export KEYFILE="--key-file ${INPUT_KEYFILE}"
 else
@@ -46,6 +46,11 @@ then
   echo "\$INPUT_INVENTORYFILE not set. Won't use any inventory option at playbook call."
 else
   echo "\$INPUT_INVENTORYFILE is set. Will use ${INPUT_INVENTORYFILE} as inventory file."
+  if [ ! -z "$VAULTPASS" ]
+  then
+    echo "Using \$INPUT_VAULTPASS to decrypt inventory, if encrypted (decryption errors will be ignored!)."
+    ansible-vault decrypt ${INPUT_INVENTORYFILE} ${VAULTPASS} || true
+  fi
   export INVENTORY="-i ${INPUT_INVENTORYFILE}"
 fi
 
@@ -98,5 +103,5 @@ else
 fi
 
 echo "going to execute: "
-echo ansible-playbook ${INPUT_PLAYBOOKNAME} ${INVENTORY} ${EXTRAFILE} ${INPUT_EXTRAVARS} ${KEYFILE} ${KEYFILEVAULTPASS} ${VERBOSITY}
-ansible-playbook ${INPUT_PLAYBOOKNAME} ${INVENTORY} ${EXTRAFILE} ${INPUT_EXTRAVARS} ${KEYFILE} ${KEYFILEVAULTPASS} ${VERBOSITY}
+echo ansible-playbook ${INPUT_PLAYBOOKNAME} ${INVENTORY} ${EXTRAFILE} ${INPUT_EXTRAVARS} ${KEYFILE} ${VAULTPASS} ${VERBOSITY}
+ansible-playbook ${INPUT_PLAYBOOKNAME} ${INVENTORY} ${EXTRAFILE} ${INPUT_EXTRAVARS} ${KEYFILE} ${VAULTPASS} ${VERBOSITY}
