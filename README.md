@@ -1,11 +1,11 @@
 # ansible-playbook-docker-action
-[![Actions Status](https://github.com/cbpowell/ansible-playbook-docker-action/workflows/Ansible%20Playbook/badge.svg)](https://github.com/cbpowell/ansible-playbook-docker-action/actions)
+[![Ansible Playbook](https://github.com/cbpowell/ansible-playbook-docker-action/actions/workflows/main.yml/badge.svg)](https://github.com/cbpowell/ansible-playbook-docker-action/actions/workflows/main.yml)
 
 Github Action to execute Ansible Playbooks using fixed Ansible versions.
 
 | Action Version | Ansible Version |
 |:--------------:|:---------------:|
-|      v1.0      |      4.8.0      |
+|      v1.5      |      4.8.0      |
 
 ## Inputs
 ### `playbookName`
