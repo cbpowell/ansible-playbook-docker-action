@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Execute Sample Playbook
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
       - name: Execute Playbook Action Step
         id: Execution
         uses: cbpowell/ansible-playbook-docker-action@master
